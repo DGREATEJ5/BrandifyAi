@@ -1,18 +1,20 @@
+# Use Amazon Linux 2 as Lambda-compatible environment
 FROM amazonlinux:2
 
-# Install Python and pip
+# Install Python + pip + zip
 RUN yum install -y python37 python3-pip zip && yum clean all
 
-# Create directory for Lambda packages
-RUN mkdir /python
+# Upgrade pip and install virtualenv
+RUN python3.7 -m pip install --upgrade pip virtualenv
 
-# Copy requirements and install into /python
+# Copy requirements
 COPY requirements.txt .
-RUN pip3 install --upgrade pip
-RUN pip3 install -r requirements.txt -t /python
 
-# Zip the contents for Lambda layer
-RUN zip -r layer.zip /python
+# Install dependencies for Lambda architecture (x86_64)
+RUN pip install --platform manylinux2014_x86_64 --only-binary=:all: -r requirements.txt -t ./python
 
-# Default command just keeps container alive (optional)
-ENTRYPOINT ["/bin/bash"]
+# Zip the dependencies
+RUN zip -r layer.zip ./python/
+
+# Set entrypoint (not mandatory, keeps shell)
+ENTRYPOINT ["/bin/bash", "-l"]
