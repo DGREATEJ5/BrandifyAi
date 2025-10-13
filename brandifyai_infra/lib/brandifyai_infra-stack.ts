@@ -1,6 +1,7 @@
 import * as cdk from 'aws-cdk-lib';
 import { Construct } from 'constructs';
 import * as lambda from 'aws-cdk-lib/aws-lambda';
+import * as dotenv from 'dotenv'
 // import * as sqs from 'aws-cdk-lib/aws-sqs';
 
 export class BrandifyaiInfraStack extends cdk.Stack {
@@ -18,6 +19,9 @@ export class BrandifyaiInfraStack extends cdk.Stack {
       code: lambda.Code.fromAsset('../app/'),
       handler: "brandifyai_api.handler",
       layers: [layer],
+      environment: {
+        OPENAI_API_KEY: process.env.OPENAI_API_KEY ?? " ",
+      }
     })
   }
 }
