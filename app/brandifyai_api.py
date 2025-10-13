@@ -1,9 +1,10 @@
 from typing import Union
 from fastapi import FastAPI
 from app.brandifyai import generate_branding_snippet, generate_keywords
+from mangum import Mangum
 
 app = FastAPI()
-
+handler = Mangum(app)
 MAX_INPUT_LENGTH = 32
 
 @app.get("/generate_snippet")
