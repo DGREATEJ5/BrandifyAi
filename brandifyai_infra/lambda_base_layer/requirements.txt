@@ -2,3 +2,5 @@ fastapi
 mangum
 openai
 requests
+pydantic
+pydantic_core
