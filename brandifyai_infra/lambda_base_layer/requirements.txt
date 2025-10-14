@@ -4,3 +4,4 @@ openai
 requests
 pydantic 
 pydantic_core 
+python-dotenv
