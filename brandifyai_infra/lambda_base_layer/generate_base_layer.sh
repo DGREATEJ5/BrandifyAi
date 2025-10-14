@@ -1,13 +1,14 @@
-# Generates a base layer for the Lambda functions.
+#!/bin/bash
 
-# Remove the container first (if it exists).
-docker rm layer-container
+# Remove old container if it exists
+docker rm -f layer-container || true
 
-# Build the base layer.
-docker build -t base-layer .
+# Build the image for x86_64 Linux (Lambda-compatible)
+docker build --platform linux/amd64 -t base-layer .
 
-# Rename it to layer-container.
+# Run the container
 docker run --name layer-container base-layer
 
-# Copy the generated zip artifact so our CDK can use it.
-docker cp layer-container:layer.zip . && echo "Created layer.zip with updated base layer."
+# Copy the generated zip artifact
+docker cp layer-container:/opt/layer.zip .
+echo "✅ Created layer.zip compatible with Lambda Python 3.11 (x86_64)"

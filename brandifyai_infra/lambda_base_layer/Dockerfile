@@ -1,21 +1,9 @@
-FROM amazonlinux:2
+FROM public.ecr.aws/lambda/python:3.11
 
-# Install Python
-RUN yum install -y python37 && \
-    yum install -y python3-pip && \
-    yum install -y zip && \
-    yum clean all
+WORKDIR /opt
 
-# Set up PIP and Venv
-RUN python3.7 -m pip install --upgrade pip && \
-    python3.7 -m pip install virtualenv
-RUN python3.7 -m venv base
-RUN source base/bin/activate
+RUN yum install -y gcc gcc-c++ make zip
+COPY requirements.txt .
+RUN pip install --upgrade pip && pip install -r requirements.txt -t python
 
-# Install dependencies
-COPY ./requirements.txt .
-RUN pip install -r requirements.txt -t ./python
-
-# Zip it up for deployment.
-RUN zip -r layer.zip ./python/
-ENTRYPOINT ["/bin/bash", "-l"]
+RUN zip -r layer.zip python

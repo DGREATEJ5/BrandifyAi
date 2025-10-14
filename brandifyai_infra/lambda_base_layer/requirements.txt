@@ -1,6 +1,6 @@
-fastapi
+fastapi 
 mangum
 openai
 requests
-pydantic
-pydantic_core
+pydantic 
+pydantic_core 
