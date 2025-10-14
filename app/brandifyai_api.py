@@ -1,6 +1,6 @@
 from typing import Union
 from fastapi import FastAPI
-from app.brandifyai import generate_branding_snippet, generate_keywords
+from brandifyai import generate_branding_snippet, generate_keywords
 from mangum import Mangum
 
 app = FastAPI()
