@@ -1,12 +1,11 @@
 "use client";
 
-export const dynamic = "force-dynamic";
-
+import { Suspense } from "react";
 import { useEffect, useState } from "react";
 import { useSearchParams, useRouter } from "next/navigation";
 import Image from "next/image";
 
-export default function ResultPage() {
+function ResultPageContent() {
   const searchParams = useSearchParams();
   const router = useRouter();
   const prompt = searchParams.get("prompt");
@@ -114,5 +113,14 @@ export default function ResultPage() {
         </button>
       </div>
     </div>
+  );
+}
+
+// ✅ Wrap inside Suspense to fix build error
+export default function ResultPage() {
+  return (
+    <Suspense fallback={<div className="text-white text-center mt-10">Loading...</div>}>
+      <ResultPageContent />
+    </Suspense>
   );
 }
