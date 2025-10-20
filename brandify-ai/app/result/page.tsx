@@ -1,4 +1,7 @@
 "use client";
+
+export const dynamic = "force-dynamic";
+
 import { useEffect, useState } from "react";
 import { useSearchParams, useRouter } from "next/navigation";
 import Image from "next/image";
@@ -21,7 +24,7 @@ export default function ResultPage() {
         setLoading(true);
         setError("");
 
-        // ✅ call your Next.js proxy route instead of AWS directly
+        // ✅ Call internal API route instead of AWS directly
         const res = await fetch(`/api/generate?prompt=${encodeURIComponent(prompt)}`);
 
         if (!res.ok) {
@@ -44,9 +47,9 @@ export default function ResultPage() {
   }, [prompt]);
 
   return (
-    <div className="flex items-center justify-center min-h-screen bg-[#040037]">
+    <div className="flex items-center justify-center min-h-screen bg-[#040037] px-4">
       {/* Center White Box */}
-      <div className="flex flex-col items-center justify-center bg-white rounded-2xl shadow-2xl p-10 w-full max-w-md">
+      <div className="flex flex-col items-center justify-center bg-white rounded-2xl shadow-2xl p-8 sm:p-10 w-full max-w-md">
         {/* Logo */}
         <Image
           src="/brandifyai_logo.svg"
@@ -57,7 +60,9 @@ export default function ResultPage() {
         />
 
         {/* Brand Name */}
-        <h1 className="text-3xl font-bold text-[#040037] mb-2">BrandifyAI</h1>
+        <h1 className="text-3xl font-bold text-[#040037] mb-2 text-center">
+          BrandifyAI
+        </h1>
 
         {/* Tagline */}
         <p className="text-gray-600 mb-6 text-center">
